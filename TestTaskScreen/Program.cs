@@ -103,6 +103,18 @@ namespace TestTaskScreen
 				if (arguments.EnforceSchema)
 					ctx.Database.EnsureCreated();
 
+				//Проверим наличие конфликтов номеров заказов
+				HashSet<int> orderIds = orders.Orders.Select(x => x.Id).ToHashSet();
+				var conflictingIds = from purchase in ctx.Purchases where orderIds.Contains(purchase.Id) select purchase.Id;
+				bool conflict = false;
+				foreach (var conflictingId in conflictingIds)
+				{
+					Console.WriteLine($"Error: conflicting order no: {conflictingId}");
+					conflict = true;
+				}
+				if (conflict)
+					return;
+
 				//Создаём объекты для всех уникальных пользователей из xml (определяем уникального пользователя по email)
 				Dictionary<string, DatabaseModel.User> users = orders.Orders
 																	 .Select(x => x.User)
@@ -128,6 +140,7 @@ namespace TestTaskScreen
 						0,
 						order.OrderDate
 					);
+					purchase.Id = order.Id;
 					purchase.User = users[order.User.Email];
 					foreach (var product in order.Products)
 					{
