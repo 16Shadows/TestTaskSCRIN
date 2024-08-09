@@ -177,6 +177,8 @@ namespace TestTaskScreen
 						purchase.Products.Add(purchaseProduct);
 					}
 
+					purchase.Payment = new Payment(1, "-", order.Sum, arguments.Currency);
+
 					ctx.Purchases.Add( purchase );
 				}
 

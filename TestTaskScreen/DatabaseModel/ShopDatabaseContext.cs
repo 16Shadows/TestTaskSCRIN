@@ -56,6 +56,7 @@ namespace TestTaskScreen.DatabaseModel
 				purchase.HasKey(x => x.Id);
 				purchase.HasOne(x => x.User).WithMany();
 				purchase.HasMany(x => x.Products).WithOne(x => x.Purchase);
+				purchase.HasOne(x => x.Payment).WithOne();
 			});
 
 			modelBuilder.Entity<PurchaseProduct>(pp =>

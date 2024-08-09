@@ -36,5 +36,12 @@
 		/// Товары в этой покупке.
 		/// </summary>
 		public ICollection<PurchaseProduct> Products { get; }
+
+		public int PaymentId { get; set; }
+
+		/// <summary>
+		/// Платёж за этот заказ.
+		/// </summary>
+		public Payment Payment { get; set; }
 	}
 }
